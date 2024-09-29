@@ -10,28 +10,43 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  public olympics$: Observable<any> = of(null);
+  public olympics$: Observable<Olympic[]> = of([]);
 
   data: any;
   options: any;
+totalJos!: number;
+  totalCountries!: number;
+  countries!: string[];
+  olympics!: Olympic[];
+  totalMedals!: number[];
 
   constructor(private olympicService: OlympicService) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
+    this.dataFormating(this.olympics$);
+  }
 
-    this.olympics$
+  dataFormating(olympics$: Observable<Olympic[]>) {
+    olympics$
         .pipe(
             filter(olympicData => olympicData && olympicData.length > 0),
             map(olympicData => {
-                const countries = olympicData.map((item: Olympic) => item.country);
-                const totalMedals = olympicData.map((item: Olympic) => item.participations.reduce((total: number, participation: Participation) => total + participation.medalsCount, 0));
-                return { countries, totalMedals };
+          this.olympics = olympicData;
+          this.countries = olympicData.map((item: Olympic) => item.country);
+          this.totalMedals = olympicData.map((item: Olympic) => item.participations.reduce((total: number, participation: Participation) => total + participation.medalsCount, 0));
+          this.totalJos = new Set(
+            olympicData
+              .map((item: Olympic) => item.participations)
+              .reduce((allParticipations: Participation[], currentParticipations: Participation[]) => allParticipations.concat(currentParticipations), [])
+              .map((participation: Participation) => participation.year)
+            ).size;
+            this.totalCountries = this.countries.length;
               }
             )
         )
-        .subscribe(({ countries, totalMedals }) => {
-          this.chartInitialization(countries, totalMedals);
+      .subscribe(() => {
+        this.chartInitialization(this.countries, this.totalMedals);
         });
   }
 
@@ -43,7 +58,6 @@ export class HomeComponent implements OnInit {
                 data: totalMedals,
                 backgroundColor: ['#793d52', '#89a1db', '#9780a1', '#b8cbe7', '#956065'],
                 hoverBackgroundColor: ['#8d4a62', '#9cb1e0', '#a18ba8', '#c3d3eb', '#a06d74']
-
             }
         ]
     };
