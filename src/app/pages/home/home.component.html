@@ -14,5 +14,5 @@
 </div>
 
 <div class="card flex justify-content-center">
-    <p-chart type="pie" [data]="data" [options]="options" height="600px"/>
+    <p-chart type="pie" [data]="data" [options]="options" height="600px" (onDataSelect)="onDetailChart($event.element.index)"/>
 </div>
