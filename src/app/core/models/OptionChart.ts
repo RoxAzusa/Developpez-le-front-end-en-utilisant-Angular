@@ -1,7 +1,7 @@
 export interface OptionChart {
     plugins: {
         legend: {
-            display: boolean,
+            display?: boolean,
             labels?: {
                 usePointStyle: boolean,
                 color: string,
