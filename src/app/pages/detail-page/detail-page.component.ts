@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map, Observable, of } from 'rxjs';
+import { DataChart } from 'src/app/core/models/DataChart';
 import { Olympic } from 'src/app/core/models/Olympic';
+import { OptionChart } from 'src/app/core/models/OptionChart';
 import { Participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
@@ -13,8 +15,8 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 export class DetailPageComponent implements OnInit {
   public olympics$: Observable<Olympic[]> = of([]);
   
-  data: any;
-  options: any;
+  data!: DataChart;
+  options!: OptionChart;
   idCountry!: number;
   olympicDetail!: Olympic[];
   numberEntries!: number;
