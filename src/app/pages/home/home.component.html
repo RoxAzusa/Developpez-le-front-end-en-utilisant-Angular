@@ -2,17 +2,23 @@
     <h2>Medals per Country</h2>
 </div>
 
-<div class="global-view">
-    <div class="detail-view">
-        <p class="title-view">Number of JOs</p>
-        <p class="value-view">{{ totalJos}}</p>
-    </div>
-    <div class="detail-view">
-        <p class="title-view">Number of countries</p>
-        <p class="value-view">{{ totalCountries }}</p>
-    </div>
+<div *ngIf="isLoading">
+    <h3>Chargement des données ...</h3>
 </div>
 
-<div class="card flex justify-content-center">
-    <p-chart type="pie" [data]="data" [options]="options" height="600px" (onDataSelect)="onDetailChart($event.element.index)"/>
+<div *ngIf="!isLoading">
+    <div class="global-view">
+        <div class="detail-view">
+            <p class="title-view">Number of JOs</p>
+            <p class="value-view">{{ totalJos}}</p>
+        </div>
+        <div class="detail-view">
+            <p class="title-view">Number of countries</p>
+            <p class="value-view">{{ totalCountries }}</p>
+        </div>
+    </div>
+    
+    <div class="card flex justify-content-center">
+        <p-chart type="pie" [data]="data" [options]="options" (onDataSelect)="onDetailChart($event.element.index)"/>
+    </div>
 </div>

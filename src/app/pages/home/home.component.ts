@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { filter, map, Observable, of } from 'rxjs';
+import { filter, Observable, of } from 'rxjs';
 import { DataChart } from 'src/app/core/models/DataChart';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OptionChart } from 'src/app/core/models/OptionChart';
@@ -22,20 +22,30 @@ export class HomeComponent implements OnInit {
   countries!: string[];
   olympics!: Olympic[];
   totalMedals!: number[];
+  isLoading = true;
 
   constructor(private olympicService: OlympicService,
               private router: Router) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
-    this.dataFormating(this.olympics$);
+
+    this.olympics$
+      .pipe(
+        filter(olympicData => olympicData && olympicData.length > 0)
+      )
+      .subscribe({
+        next: olympicData => {
+          this.formatingData(olympicData);
+          this.isLoading = false;
+        },
+        error: () => {
+          this.router.navigate(['/error']);
+        }
+      });
   }
   
-  dataFormating(olympics$: Observable<Olympic[]>) {
-    olympics$
-      .pipe(
-        filter(olympicData => olympicData && olympicData.length > 0),
-        map(olympicData => {
+  formatingData(olympicData: Olympic[]) {
           this.olympics = olympicData;
           this.countries = olympicData.map((item: Olympic) => item.country);
           this.totalMedals = olympicData.map((item: Olympic) => item.participations.reduce((total: number, participation: Participation) => total + participation.medalsCount, 0));
@@ -46,12 +56,8 @@ export class HomeComponent implements OnInit {
               .map((participation: Participation) => participation.year)
             ).size;
             this.totalCountries = this.countries.length;
-          }
-        )
-      )
-      .subscribe(() => {
+    
         this.chartInitialization(this.countries, this.totalMedals);
-      });
   }
 
   chartInitialization(countries: string[], totalMedals: number[]) {
