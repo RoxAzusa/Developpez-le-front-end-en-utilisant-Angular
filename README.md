@@ -27,3 +27,12 @@ Once mastered, you should continue by creating the typescript interfaces inside 
 You're now ready to implement the requested features.
 
 Good luck!
+
+## Description
+The **OlympicGamesStarter** application provides users with an interactive dashboard to visualize information from previous Olympic Games. Users can explore the results of the Olympics, including the number of medals won by different countries and specific details for each nation.
+
+## Features
+- **Home Page**: Presents a summary of the Olympic results with a chart illustrating the total number of medals by country, as well as an overview of the Olympic events. Clicking on a country redirects the user to the details of that country.
+- **Detail Page**: Displays a chart representing the medals won by the country in each edition of the Games, along with an overview of the statistics for that country.
+- **Error Page**: Users are redirected to this page if an error occurs during data retrieval or processing.
+- **Not Found Page**: This page appears when the entered URL is incorrect, directing the user to useful information.
