@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, Observable, of } from 'rxjs';
+import { filter, Observable, of, Subscription } from 'rxjs';
 import { DataChart } from 'src/app/core/models/DataChart';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OptionChart } from 'src/app/core/models/OptionChart';
@@ -12,8 +12,9 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   templateUrl: './detail-page.component.html',
   styleUrl: './detail-page.component.scss'
 })
-export class DetailPageComponent implements OnInit {
+export class DetailPageComponent implements OnInit, OnDestroy {
   public olympics$: Observable<Olympic[]> = of([]);
+  private subscription: Subscription = new Subscription();
   
   data!: DataChart;
   options!: OptionChart;
@@ -35,7 +36,7 @@ export class DetailPageComponent implements OnInit {
     this.idCountry = this.route.snapshot.params["idCountry"];
     this.olympics$ = this.olympicService.getOlympics();
 
-    this.olympics$
+    const olympicSubscription = this.olympics$
       .pipe(
         filter(olympicData => olympicData && olympicData.length > 0)
       )
@@ -48,6 +49,12 @@ export class DetailPageComponent implements OnInit {
           this.router.navigate(['/error']);
         }
       });
+
+    this.subscription.add(olympicSubscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
   
   formatingData(olympicData: Olympic[]) {
