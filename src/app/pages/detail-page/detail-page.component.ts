@@ -51,17 +51,17 @@ export class DetailPageComponent implements OnInit {
   }
   
   formatingData(olympicData: Olympic[]) {
-        this.olympicDetail = olympicData.filter(
-          (item: Olympic) => item.id == this.idCountry
-        );
+    this.olympicDetail = olympicData.filter(
+      (item: Olympic) => item.id == this.idCountry
+    );
     this.participationsJo = this.olympicDetail[0].participations.map((item: Participation) => `${item.year}`);
-        this.medalsJo = this.olympicDetail[0].participations.map((item: Participation) => item.medalsCount);
-        this.countryName = this.olympicDetail[0].country;
-        this.numberEntries = this.olympicDetail[0].participations.length;
-        this.totalMedals = this.medalsJo.reduce((allMedals: number, medal: number) => allMedals + medal, 0);
-        this.totalAthletes = this.olympicDetail[0].participations.map((item: Participation) => item.athleteCount).reduce((allAthletes: number, athlete: number) => allAthletes + athlete, 0);
+    this.medalsJo = this.olympicDetail[0].participations.map((item: Participation) => item.medalsCount);
+    this.countryName = this.olympicDetail[0].country;
+    this.numberEntries = this.olympicDetail[0].participations.length;
+    this.totalMedals = this.medalsJo.reduce((allMedals: number, medal: number) => allMedals + medal, 0);
+    this.totalAthletes = this.olympicDetail[0].participations.map((item: Participation) => item.athleteCount).reduce((allAthletes: number, athlete: number) => allAthletes + athlete, 0);
     
-      this.chartInitialization(this.participationsJo, this.medalsJo);
+    this.chartInitialization(this.participationsJo, this.medalsJo);
   }
   
   chartInitialization(participationsJo: string[], medalsJo: number[]) {
@@ -77,6 +77,8 @@ export class DetailPageComponent implements OnInit {
     };
     
     this.options = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.8,
       plugins: {
         legend: {
           display: false

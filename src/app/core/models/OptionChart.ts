@@ -1,4 +1,6 @@
 export interface OptionChart {
+    maintainAspectRatio: boolean,
+    aspectRatio?: number,
     plugins: {
         legend: {
             display?: boolean,

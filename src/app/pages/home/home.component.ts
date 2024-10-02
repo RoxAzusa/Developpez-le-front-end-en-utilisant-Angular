@@ -46,18 +46,18 @@ export class HomeComponent implements OnInit {
   }
   
   formatingData(olympicData: Olympic[]) {
-          this.olympics = olympicData;
-          this.countries = olympicData.map((item: Olympic) => item.country);
-          this.totalMedals = olympicData.map((item: Olympic) => item.participations.reduce((total: number, participation: Participation) => total + participation.medalsCount, 0));
-          this.totalJos = new Set(
-            olympicData
-              .map((item: Olympic) => item.participations)
-              .reduce((allParticipations: Participation[], currentParticipations: Participation[]) => allParticipations.concat(currentParticipations), [])
-              .map((participation: Participation) => participation.year)
-            ).size;
-            this.totalCountries = this.countries.length;
+    this.olympics = olympicData;
+    this.countries = olympicData.map((item: Olympic) => item.country);
+    this.totalMedals = olympicData.map((item: Olympic) => item.participations.reduce((total: number, participation: Participation) => total + participation.medalsCount, 0));
+    this.totalJos = new Set(
+      olympicData
+      .map((item: Olympic) => item.participations)
+      .reduce((allParticipations: Participation[], currentParticipations: Participation[]) => allParticipations.concat(currentParticipations), [])
+      .map((participation: Participation) => participation.year)
+    ).size;
+    this.totalCountries = this.countries.length;
     
-        this.chartInitialization(this.countries, this.totalMedals);
+    this.chartInitialization(this.countries, this.totalMedals);
   }
 
   chartInitialization(countries: string[], totalMedals: number[]) {
@@ -73,6 +73,7 @@ export class HomeComponent implements OnInit {
     };
     
     this.options = {
+      maintainAspectRatio: false,
       plugins: {
         legend: {
           labels: {
