@@ -19,6 +19,10 @@ const routes: Routes = [
     component: ErrorPageComponent
   },
   {
+    path: 'not-found',
+    component: NotFoundComponent,
+  },
+  {
     path: '**', // wildcard
     component: NotFoundComponent,
   },

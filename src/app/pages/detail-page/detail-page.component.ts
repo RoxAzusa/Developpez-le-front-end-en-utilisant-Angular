@@ -61,6 +61,12 @@ export class DetailPageComponent implements OnInit, OnDestroy {
     this.olympicDetail = olympicData.filter(
       (item: Olympic) => item.id == this.idCountry
     );
+
+    if (!this.olympicDetail.length) {
+      this.router.navigate(['/not-found']);
+      return;
+    }
+    
     this.participationsJo = this.olympicDetail[0].participations.map((item: Participation) => `${item.year}`);
     this.medalsJo = this.olympicDetail[0].participations.map((item: Participation) => item.medalsCount);
     this.countryName = this.olympicDetail[0].country;
