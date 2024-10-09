@@ -8,7 +8,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ChartModule } from 'primeng/chart';
 import { DetailPageComponent } from './pages/detail-page/detail-page.component';
 import { RouterLink } from '@angular/router';
-import { ErrorPageComponent } from './error-page/error-page.component';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent, DetailPageComponent, ErrorPageComponent],
